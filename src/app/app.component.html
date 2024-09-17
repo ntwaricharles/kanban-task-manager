@@ -1,4 +1,13 @@
-<div class="flex flex-col bg-lighter-grayish-blue h-[80%]">
-  <app-navbar></app-navbar>
-  <app-sidebar></app-sidebar>
+<div [ngClass]="{ 'dark': isDarkMode }" class="flex flex-col h-screen">
+  <div class="h-[20%]">
+    <app-navbar></app-navbar>
+  </div>
+  <div class="flex flex-grow">
+    <div class="w-1/5 hidden md:block">
+      <app-sidebar></app-sidebar>
+    </div>
+    <div class="w-full md:w-4/5">
+      <app-task-board></app-task-board>
+    </div>
+  </div>
 </div>
