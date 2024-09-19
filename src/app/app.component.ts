@@ -17,5 +17,6 @@ export class AppComponent {
     this.isDarkMode = !this.isDarkMode;
     localStorage.setItem('darkMode', this.isDarkMode.toString());
   }
+  
 }
 

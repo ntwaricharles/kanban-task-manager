@@ -1,32 +1,34 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { loadBoards } from '../../store/task-board.actions';
+import { selectAllTasks } from '../../store/task-board.selectors'; // Import selector
+import { Board } from '../../board.model'; // Import Board model
+import { TaskBoardState } from '../../store/task-board.reducer';
 
 @Component({
   selector: 'app-task-board',
   templateUrl: './task-board.component.html',
-  styleUrl: './task-board.component.css'
+  styleUrls: ['./task-board.component.css'],
 })
-export class TaskBoardComponent {
-  columns = [
-    {
-      name: 'To Do',
-      tasks: [
-        { title: 'Task 1', description: 'This is task 1' },
-        { title: 'Task 2', description: 'This is task 2' },
-      ],
-    },
-    {
-      name: 'Doing',
-      tasks: [
-        { title: 'Task 3', description: 'This is task 3' },
-        { title: 'Task 4', description: 'This is task 4' },
-      ],
-    },
-    {
-      name: 'Done',
-      tasks: [
-        { title: 'Task 5', description: 'This is task 5' },
-        { title: 'Task 6', description: 'This is task 6' },
-      ],
-    },
-  ];
+export class TaskBoardComponent implements OnInit {
+  boards$!: Observable<Board[]>;
+
+  constructor(private store: Store<{ boards: TaskBoardState }>) {}
+
+  ngOnInit(): void {
+    this.boards$ = this.store.select(selectAllTasks);
+    // Dispatch action to load boards from the store (i.e., from the service or API)
+    this.store.dispatch(loadBoards());
+
+    // Subscribe to the boards$ observable to log the data
+    this.boards$.subscribe(
+      (boards) => {
+        console.log('Boards data:', boards);
+      },
+      (error) => {
+        console.error('Error fetching boards data:', error);
+      }
+    );
+  }
 }

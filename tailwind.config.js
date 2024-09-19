@@ -1,8 +1,14 @@
 module.exports = {
-  darkMode: "class",
+  darkMode: 'class',  // Enable dark mode via a CSS class
   content: ["./src/**/*.{html,ts}"],
   theme: {
     extend: {
+      screens: { // Customize screen breakpoints for responsiveness
+        'sm': '640px',
+        'md': '768px',
+        'lg': '1024px',
+        'xl': '1280px',
+      },
       colors: {
         'dark-gray': '#20212C',
         'darker-blue': '#000112',
@@ -20,4 +26,4 @@ module.exports = {
     },
   },
   plugins: [],
-}
+};
