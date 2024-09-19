@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Board } from '../board.model';
-
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +12,8 @@ export class TaskBoardService {
   constructor(private http: HttpClient) {}
 
   getBoards(): Observable<Board[]> {
-    return this.http.get<Board[]>(this.dataUrl);
+    return this.http
+      .get<{ boards: Board[] }>(this.dataUrl)
+      .pipe(map((res) => res.boards));
   }
 }

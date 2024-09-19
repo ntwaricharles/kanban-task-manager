@@ -1,9 +1,11 @@
 import { Component, Input } from '@angular/core';
+import { Column } from '../../board.model'; // Use the correct types
 
 @Component({
   selector: 'app-task-list',
   templateUrl: './task-list.component.html',
+  styleUrls: ['./task-list.component.css'],
 })
 export class TaskListComponent {
-  @Input() column: any; // Ensure column data is passed from the parent
+  @Input() column!: Column; // Column data passed from parent
 }

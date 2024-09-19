@@ -1,30 +1,39 @@
-<div class="flex flex-wrap justify-between gap-4 p-6 bg-lighter-grayish-blue dark:bg-darker-blue min-h-screen transition-all duration-300">
-  <div *ngIf="boards$ | async as boards">
-    <ng-container *ngIf="boards.length > 0; else noBoards">
-      <!-- Loop through each board -->
-      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
-        <ng-container *ngFor="let board of boards">
-          <div class="border border-light-grayish-blue dark:border-grayish-dark rounded-lg p-4 bg-white dark:bg-dark-grayish-blue">
-            <h2 class="text-xl font-bold mb-4">{{ board.name }}</h2>
-            <div class="grid grid-cols-1 gap-4">
-              <!-- Loop through each column in the current board -->
-              <ng-container *ngFor="let column of board.columns">
-                <app-task-list [column]="column" class="col-span-1"></app-task-list>
-              </ng-container>
-            </div>
-          </div>
-        </ng-container>
+<div
+  class="flex flex-wrap justify-between gap-4 p-6 bg-lighter-grayish-blue dark:bg-darker-blue min-h-screen transition-all duration-300 overflow-hidden"
+>
+  <div
+    *ngIf="columns.length === 0"
+    class="flex flex-col justify-center items-center w-full"
+  >
+    <p
+      class="text-center text-lg font-semibold text-dark-purple dark:text-light-purple"
+    >
+      This column is empty. Create a new column to get started.
+    </p>
+    <button
+      class="mt-4 flex flex-col justify-center items-center bg-light-grayish-blue dark:bg-grayish-dark rounded-lg p-4 text-grayish-dark dark:text-light-purple"
+    >
+      <span class="text-2xl font-bold dark:hover:text-dark-purple"
+        >+ New Column</span
+      >
+    </button>
+  </div>
 
-        <!-- Add New Column Button -->
-        <button class="flex flex-col justify-center items-center bg-light-grayish-blue dark:bg-grayish-dark rounded-lg p-4 text-grayish-dark dark:text-light-purple">
-          <span class="text-2xl font-bold hover:text-light-purple dark:hover:text-dark-purple">+ New Column</span>
-        </button>
-      </div>
+  <div
+    *ngIf="columns.length > 0"
+    class="grid grid-cols-1 md:grid-cols-4 gap-4 w-full"
+  >
+    <ng-container *ngFor="let column of columns">
+      <app-task-list [column]="column" class="col-span-1"></app-task-list>
     </ng-container>
 
-    <!-- Fallback when there are no boards -->
-    <ng-template #noBoards>
-      <p>No boards available.</p>
-    </ng-template>
+    <button
+      class="flex flex-col justify-center items-center rounded-lg bg-light-purple dark:bg-grayish-dark p-1 text-grayish-dark dark:text-light-purple"
+    >
+      <span
+        class="text-2xl font-bold hover:text-light-purple dark:hover:text-dark-purple"
+        >+ New Column</span
+      >
+    </button>
   </div>
 </div>
