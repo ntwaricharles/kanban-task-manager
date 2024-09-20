@@ -2,7 +2,11 @@
   <div class="flex justify-start items-start w-1/2">
     <img class=" dark:hidden block w-1/3 px-6" src="/assets/logo-dark.svg" alt="logo" />
     <img class=" dark:block hidden w-1/3 px-6" src="/assets/logo-light.svg" alt="logo" />
-    <p class="font-bold text-xl text-darker-blue dark:text-lighter-grayish-blue">Platform Launch</p>
+    
+    <!-- Display the active board name dynamically -->
+    <p class="font-bold text-xl text-darker-blue ml-10 dark:text-lighter-grayish-blue">
+      {{ activeBoardName }}
+    </p>
   </div>
   
   <div class="flex justify-center items-center gap-3">

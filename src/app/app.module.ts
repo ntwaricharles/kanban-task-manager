@@ -14,6 +14,7 @@ import { TaskCardComponent } from './components/task-card/task-card.component';
 import { taskBoardReducer } from './store/task-board.reducer';
 import { TaskBoardEffects } from './store/task-board.effects';
 import { CommonModule } from '@angular/common';
+import { TaskModalComponent } from './task-modal/task-modal.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { CommonModule } from '@angular/common';
     TaskBoardComponent,
     TaskListComponent,
     TaskCardComponent,
+    TaskModalComponent,
   ],
   imports: [
     BrowserModule,

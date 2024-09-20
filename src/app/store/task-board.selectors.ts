@@ -14,3 +14,9 @@ export const selectTaskError = createSelector(
   selectTaskBoardState,
   (state: TaskBoardState) => state.error
 );
+
+export const selectActiveBoard = createSelector(
+  selectTaskBoardState,
+  (state: TaskBoardState) =>
+    state.boards.find((board) => board.name === state.activeBoardName)
+);

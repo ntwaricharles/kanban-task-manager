@@ -15,3 +15,10 @@ export const loadBoardsFailure = createAction(
   '[Task Board] Load Boards Failure',
   props<{ error: any }>()
 );
+
+
+// Action to set the active board name
+export const setActiveBoardName = createAction(
+  '[Task Board] Set Active Board Name',
+  props<{ boardName: string }>()
+);
