@@ -15,6 +15,10 @@ import { taskBoardReducer } from './store/task-board.reducer';
 import { TaskBoardEffects } from './store/task-board.effects';
 import { CommonModule } from '@angular/common';
 import { TaskModalComponent } from './task-modal/task-modal.component';
+import { ModalComponent } from './components/modal/modal.component';
+import { AddTaskComponent } from './components/add-task/add-task.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CreateBoardModalComponent } from './components/create-board-modal/create-board-modal.component';
 
 @NgModule({
   declarations: [
@@ -25,10 +29,15 @@ import { TaskModalComponent } from './task-modal/task-modal.component';
     TaskListComponent,
     TaskCardComponent,
     TaskModalComponent,
+    ModalComponent,
+    AddTaskComponent,
+    CreateBoardModalComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    ReactiveFormsModule,
+    FormsModule, 
     CommonModule,
     HttpClientModule,
     StoreModule.forRoot({ taskBoard: taskBoardReducer }),

@@ -13,6 +13,7 @@ import { setActiveBoardName } from '../../store/task-board.actions';
 })
 export class SidebarComponent implements OnInit {
   isSidebarHidden = false;
+  isCreateBoardModalOpen = false;
   boards$: Observable<Board[]>;
   activeBoard: Board | null = null; // Track the currently active board
 

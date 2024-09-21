@@ -1,0 +1,5 @@
+<div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80" (click)="onClose()">
+  <div class=" rounded-lg p-6 w-11/12 max-w-md" (click)="$event.stopPropagation()">
+    <app-add-task (close)="onClose()"></app-add-task>
+  </div>
+</div>

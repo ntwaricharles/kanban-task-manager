@@ -37,7 +37,10 @@
       </ng-container>
     </ng-container>
 
-    <button class="flex gap-2 py-2 font-bold">
+    <button
+      (click)="isCreateBoardModalOpen = true"
+      class="flex gap-2 py-2 font-bold"
+    >
       <img src="assets/icon-board.svg" alt="" />
       <span class="text-dark-purple">+ Create New Board</span>
     </button>
@@ -49,11 +52,10 @@
     >
       <img src="/assets/icon-light-theme.svg" alt="" />
       <label class="switch relative w-16 md:w-24">
-        <span
-          class="slider round absolute inset-0"
-          (click)="toggleDarkMode()"
-        ></span>
+        <input type="checkbox" (change)="toggleDarkMode()" />
+        <span class="slider round absolute inset-0"></span>
       </label>
+
       <img src="/assets/icon-dark-theme.svg" alt="" />
     </div>
 
@@ -72,3 +74,8 @@
     </div>
   </div>
 </div>
+
+<app-create-board-modal
+  *ngIf="isCreateBoardModalOpen"
+  (close)="isCreateBoardModalOpen = false"
+></app-create-board-modal>

@@ -1,3 +1,4 @@
+
 import { Component, Input } from '@angular/core';
 
 @Component({
@@ -6,5 +7,10 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent {
-  @Input() activeBoardName: string = 'Platform Launch'; // Default to "Platform Launch"
-}
+  @Input() activeBoardName!: string;
+  showModal: boolean = false;
+
+  toggleModal() {
+    this.showModal = !this.showModal;
+  }
+} 
