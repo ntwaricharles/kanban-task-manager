@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { loadBoards } from '../../store/task-board.actions';
+import { loadBoards, setActiveBoardName } from '../../store/task-board.actions';
 import { selectAllTasks, selectTaskBoardState } from '../../store/task-board.selectors';
 import { Board, Column, Task } from '../../board.model';
 import { TaskBoardState } from '../../store/task-board.reducer';
@@ -44,8 +44,7 @@ export class TaskBoardComponent implements OnInit {
   }
 
   setActiveBoard(board: Board) {
-    this.activeBoard = board;
-    this.columns = board.columns;
+    this.store.dispatch(setActiveBoardName({ boardName: board.name }));
   }
 
   getCompletedSubtasks(task: Task): string {
@@ -67,16 +66,22 @@ export class TaskBoardComponent implements OnInit {
   changeTaskStatus(newStatus: string) {
     if (this.selectedTask) {
       this.selectedTask.status = newStatus;
-      this.columns = this.columns.map((column) => {
-        return {
-          ...column,
-          tasks: column.tasks.filter((task) => task !== this.selectedTask),
-        };
-      });
-      this.columns
-        .find((column) => column.name === newStatus)
-        ?.tasks.push(this.selectedTask);
+      this.updateTaskInColumns(this.selectedTask);
       this.closeTaskModal();
     }
+  }
+
+  toggleSubtask({ task, subtaskIndex }: { task: Task; subtaskIndex: number }) {
+    const subtask = task.subtasks[subtaskIndex];
+    subtask.isCompleted = !subtask.isCompleted;
+  }
+
+  updateTaskInColumns(task: Task) {
+    this.columns = this.columns.map((column) => {
+      return {
+        ...column,
+        tasks: column.tasks.map((t) => (t === task ? { ...task } : t)),
+      };
+    });
   }
 }

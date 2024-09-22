@@ -1,21 +1,31 @@
-<div *ngIf="task" class="modal-overlay">
-  <div class="modal-content bg-white dark:bg-dark-gray p-4 rounded-lg">
-    <h2 class="font-bold text-lg">{{ task.title }}</h2>
-    <p>{{ task.description }}</p>
+<div class="modal-bg">
+  <div class="modal-content">
+    <h2 class="text-xl font-bold">{{ task?.title }}</h2>
+    <button (click)="onClose()">Close</button>
 
-    <h3 class="font-semibold mt-4">Subtasks</h3>
-    <ul class="list-disc pl-5">
-      <li class="bg-lighter-grayish-blue" *ngFor="let subtask of task.subtasks">
-        <input type="checkbox" [checked]="subtask.isCompleted" />
-        {{ subtask.title }}
-      </li>
-    </ul>
+    <div *ngIf="task">
+      <h3 class="font-semibold mt-4">Subtasks</h3>
+      <ul>
+        <li *ngFor="let subtask of task.subtasks; let i = index">
+          <label>
+            <input
+              type="checkbox"
+              [checked]="subtask.isCompleted"
+              (change)="toggleSubtask(i)"
+            />
+            {{ subtask.title }}
+          </label>
+        </li>
+      </ul>
 
-    <label class="block mt-4 ">Change Task Status</label>
-    <select (change)="changeStatus($event)" [value]="task.status">
-      <option *ngFor="let status of ['To Do', 'In Progress', 'Completed']" [value]="status">{{ status }}</option>
-    </select>
-
-    <button (click)="close()" class="mt-4 bg-red text-white py-2 px-4 rounded-lg">Close</button>
+      <div class="mt-4">
+        <label for="status" class="font-semibold">Change Status:</label>
+        <select id="status" (change)="changeStatus($event)">
+          <option *ngFor="let status of statuses" [value]="status">
+            {{ status }}
+          </option>
+        </select>
+      </div>
+    </div>
   </div>
 </div>

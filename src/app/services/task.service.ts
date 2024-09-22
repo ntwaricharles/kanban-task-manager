@@ -7,6 +7,9 @@ import { Board } from '../board.model';
   providedIn: 'root',
 })
 export class TaskBoardService {
+  updateTask(task: any) {
+    throw new Error('Method not implemented.');
+  }
   private dataUrl = 'assets/data.json';
 
   constructor(private http: HttpClient) {}

@@ -22,4 +22,6 @@
   [task]="selectedTask"
   (closeModal)="closeTaskModal()"
   (statusChanged)="changeTaskStatus($event)"
+  (subtaskToggled)="toggleSubtask($event)"
 ></app-task-modal>
+
