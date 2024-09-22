@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormArray, FormGroup, Validators } from '@angular/forms';
 import { createBoard } from '../../store/task-board.actions';
 import { Store } from '@ngrx/store';
@@ -10,6 +10,8 @@ import { Board } from '../../board.model';
 })
 export class CreateBoardModalComponent {
   boardForm: FormGroup;
+
+  @Output() closeModal = new EventEmitter<void>();
 
   constructor(private fb: FormBuilder, private store: Store) {
     // Initialize the form with a default board name and two columns (FormGroup for each column)
@@ -63,7 +65,7 @@ export class CreateBoardModalComponent {
   }
 
   // Close modal
-  onClose(): void {
-    // Close logic here, e.g., setting a flag to hide the modal
+  onClose() {
+    this.closeModal.emit(); // Emit event when close button is clicked
   }
 }

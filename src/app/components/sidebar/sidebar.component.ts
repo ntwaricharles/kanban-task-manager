@@ -60,4 +60,8 @@ export class SidebarComponent implements OnInit {
       }
     });
   }
+
+  onModalClose() {
+    this.isCreateBoardModalOpen = false; // Close modal when event is emitted
+  }
 }
