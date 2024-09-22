@@ -8,6 +8,7 @@
     </ng-container>
 
     <button
+      (click)="openCreateColumnModal()"
       class="flex flex-col justify-center h-screen items-center rounded-lg bg-light-grayish-blue dark:bg-grayish-dark p-1 text-grayish-dark dark:text-light-purple"
     >
       <span
@@ -17,6 +18,14 @@
     </button>
   </div>
 </div>
+
+<app-create-board-modal
+  *ngIf="isCreateColumnModalOpen"
+  [board]="activeBoard"
+  (closeModal)="closeCreateColumnModal()"  
+  (saveBoard)="onSaveBoard($event)" 
+></app-create-board-modal>
+
 <app-task-modal
   *ngIf="selectedTask"
   [task]="selectedTask"
@@ -25,3 +34,10 @@
   (subtaskToggled)="toggleSubtask($event)"
 ></app-task-modal>
 
+<app-modal *ngIf="isAddTaskModalOpen" (close)="toggleAddTaskModal()">
+  <app-add-task 
+    [columns]="columns"
+    (close)="toggleAddTaskModal()" 
+    (createTask)="onCreateTask($event)">
+  </app-add-task>
+</app-modal>

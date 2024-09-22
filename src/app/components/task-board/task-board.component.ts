@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { loadBoards, setActiveBoardName } from '../../store/task-board.actions';
+import { loadBoards, setActiveBoardName, updateBoard } from '../../store/task-board.actions';
 import { selectAllTasks, selectTaskBoardState } from '../../store/task-board.selectors';
 import { Board, Column, Task } from '../../board.model';
 import { TaskBoardState } from '../../store/task-board.reducer';
@@ -15,9 +15,11 @@ export class TaskBoardComponent implements OnInit {
   boards$: Observable<Board[]>;
   columns: Column[] = [];
   activeBoard: Board | null = null;
-  selectedTask: Task | null = null; // Track selected task for modal
+  selectedTask: Task | null = null;
+  isCreateColumnModalOpen = false;
+  isAddTaskModalOpen: boolean = false;
 
-  @Output() boardNameChange = new EventEmitter<string>(); // Emit active board name
+  @Output() boardNameChange = new EventEmitter<string>();
 
   constructor(private store: Store<{ boards: TaskBoardState }>) {
     this.store.dispatch(loadBoards());
@@ -30,12 +32,12 @@ export class TaskBoardComponent implements OnInit {
         if (!this.activeBoard) {
           this.setActiveBoard(boards[0]); // Default to the first board
         }
-        // Filter columns based on active board name
         this.store.select(selectTaskBoardState).subscribe((state) => {
           const activeBoard = state.boards.find(
             (board) => board.name === state.activeBoardName
           );
           if (activeBoard) {
+            this.activeBoard = activeBoard;
             this.columns = activeBoard.columns;
           }
         });
@@ -45,6 +47,51 @@ export class TaskBoardComponent implements OnInit {
 
   setActiveBoard(board: Board) {
     this.store.dispatch(setActiveBoardName({ boardName: board.name }));
+  }
+
+  // Open the modal to add a new column
+  openCreateColumnModal() {
+    this.isCreateColumnModalOpen = true; // Show the modal
+  }
+
+  // Close the modal after saving changes
+  closeCreateColumnModal() {
+    this.isCreateColumnModalOpen = false; // Hide the modal
+  }
+
+  // Update board after adding a column
+  onSaveBoard(updatedBoard: Board) {
+    this.store.dispatch(updateBoard({ board: updatedBoard }));
+    this.closeCreateColumnModal(); // Close the modal after saving
+  }
+
+  toggleAddTaskModal() {
+    this.isAddTaskModalOpen = !this.isAddTaskModalOpen;
+  }
+
+  onCreateTask(newTask: {
+    title: string;
+    description: string;
+    subtasks: any[];
+    status: string;
+  }) {
+    if (this.activeBoard) {
+      const updatedColumns = this.activeBoard.columns.map((column) => {
+        if (column.name === newTask.status) {
+          return {
+            ...column,
+            tasks: [...column.tasks, { ...newTask, status: newTask.status }],
+          };
+        }
+        return column;
+      });
+
+      const updatedBoard: Board = {
+        ...this.activeBoard,
+        columns: updatedColumns,
+      };
+      this.store.dispatch(updateBoard({ board: updatedBoard }));
+    }
   }
 
   getCompletedSubtasks(task: Task): string {

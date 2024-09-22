@@ -1,5 +1,5 @@
-
 import { Component, Input } from '@angular/core';
+import { Column } from '../../board.model';
 
 @Component({
   selector: 'app-navbar',
@@ -8,9 +8,11 @@ import { Component, Input } from '@angular/core';
 })
 export class NavbarComponent {
   @Input() activeBoardName!: string;
+  @Input() columns: Column[] = []; // Pass the active board's columns
+
   showModal: boolean = false;
 
   toggleModal() {
     this.showModal = !this.showModal;
   }
-} 
+}

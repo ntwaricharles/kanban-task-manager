@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+import { Column } from '../../board.model';
 
 @Component({
   selector: 'app-add-task',
@@ -7,7 +8,10 @@ import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
   styleUrls: ['./add-task.component.css'],
 })
 export class AddTaskComponent {
+  @Input() columns: Column[] = []; // Receive columns (statuses) as input
   @Output() close = new EventEmitter<void>();
+  @Output() createTask = new EventEmitter<any>(); // Emit created task
+
   taskForm: FormGroup;
 
   constructor(private fb: FormBuilder) {
@@ -15,7 +19,7 @@ export class AddTaskComponent {
       title: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', Validators.required],
       subtasks: this.fb.array([this.fb.control('', Validators.required)]),
-      columnId: ['', Validators.required],
+      status: ['', Validators.required], // Status (column name)
     });
   }
 
@@ -40,13 +44,12 @@ export class AddTaskComponent {
           title: subtask,
           isCompleted: false,
         })),
-        columnId: this.taskForm.value.columnId,
+        status: this.taskForm.value.status, // Status is the column name
       };
 
-      console.log('New Task:', newTask);
-      // Emit an event to close the modal after task creation
-      this.close.emit();
-      this.taskForm.reset();
+      this.createTask.emit(newTask); // Emit task
+      this.close.emit(); // Close modal
+      this.taskForm.reset(); // Reset form
     } else {
       this.taskForm.markAllAsTouched();
     }

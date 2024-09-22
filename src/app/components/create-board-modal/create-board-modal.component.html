@@ -6,7 +6,7 @@
     class="bg-white dark:bg-dark-gray rounded-lg p-6 w-11/12 max-w-md"
     (click)="$event.stopPropagation()"
   >
-    <h2 class="text-xl font-bold mb-4 dark:text-gray-200">Create New Board</h2>
+    <h2 class="text-xl font-bold mb-4 dark:text-gray-200">{{ isEditing ? 'Edit Board' : 'Create New Board' }}</h2>
 
     <form (ngSubmit)="onSubmit()" [formGroup]="boardForm">
       <!-- Board Name -->
@@ -65,7 +65,7 @@
         type="submit"
         class="w-full bg-dark-purple text-lighter-grayish-blue dark:text-gray-200 p-2 font-bold rounded-full"
       >
-        Create New Board
+        {{ isEditing ? 'Save Changes' : 'Create New Board' }}
       </button>
     </form>
   </div>

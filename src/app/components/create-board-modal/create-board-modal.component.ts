@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormArray, FormGroup, Validators } from '@angular/forms';
-import { createBoard } from '../../store/task-board.actions';
 import { Store } from '@ngrx/store';
+import { createBoard, updateBoard } from '../../store/task-board.actions'; // Import updateBoard action
 import { Board } from '../../board.model';
 
 @Component({
@@ -9,63 +9,89 @@ import { Board } from '../../board.model';
   templateUrl: './create-board-modal.component.html',
 })
 export class CreateBoardModalComponent {
-  boardForm: FormGroup;
+  @Input() board: Board | null = null; // Input to pass the board for editing
+  @Output() closeModal = new EventEmitter<void>(); // Emit event to close modal
+  @Output() saveBoard = new EventEmitter<Board>();
 
-  @Output() closeModal = new EventEmitter<void>();
+  boardForm: FormGroup;
+  isEditing: boolean = false; // Track if we're in editing mode
 
   constructor(private fb: FormBuilder, private store: Store) {
-    // Initialize the form with a default board name and two columns (FormGroup for each column)
     this.boardForm = this.fb.group({
       boardName: ['', Validators.required],
-      columns: this.fb.array([this.createColumn(), this.createColumn()]), // Two default columns
+      columns: this.fb.array([]), // Initialize an empty form array
     });
   }
 
-  // Getter for the columns form array
   get columns(): FormArray {
     return this.boardForm.get('columns') as FormArray;
   }
 
-  // Function to create a new column form group
+  // Populate form with board's data when editing
+  ngOnChanges() {
+    if (this.board) {
+      this.isEditing = true;
+      this.boardForm.patchValue({ boardName: this.board.name });
+
+      // Clear existing columns and populate with current board columns
+      this.columns.clear();
+      this.board.columns.forEach((column) => {
+        this.columns.push(this.fb.group({ name: column.name }));
+      });
+    } else {
+      this.isEditing = false;
+      this.boardForm.reset();
+      this.columns.clear();
+      this.addColumn(); // Add default columns for creating new board
+      this.addColumn();
+    }
+  }
+
   createColumn(): FormGroup {
-    // Wrapping the FormControl inside a FormGroup
     return this.fb.group({
-      name: ['', Validators.required], // Name field for each column
+      name: ['', Validators.required],
     });
   }
 
-  // Add a new column to the form array
   addColumn(): void {
     this.columns.push(this.createColumn());
   }
 
-  // Remove a column from the form array at the given index
   removeColumn(index: number): void {
     if (this.columns.length > 1) {
       this.columns.removeAt(index);
     }
   }
 
-  // Dispatch Create Board Action on form submission
   onSubmit(): void {
-    if (this.boardForm.valid) {
-      const { boardName, columns } = this.boardForm.value;
+    const { boardName, columns } = this.boardForm.value;
 
-      const newBoard: Board = {
+    if (this.boardForm.valid) {
+      const updatedBoard: Board = {
         name: boardName,
         columns: columns.map((col: { name: string }) => ({
           name: col.name,
-          tasks: [],
+          tasks:
+            this.board?.columns.find((c) => c.name === col.name)?.tasks || [], // Retain tasks if editing
         })),
       };
 
-      this.store.dispatch(createBoard({ board: newBoard }));
-      this.onClose(); // Close modal after dispatching
+
+      this.saveBoard.emit(updatedBoard);
+
+      if (this.isEditing && this.board) {
+        // Update existing board
+        this.store.dispatch(updateBoard({ board: updatedBoard }));
+      } else {
+        // Create new board
+        this.store.dispatch(createBoard({ board: updatedBoard }));
+      }
+
+      this.onClose(); // Close the modal after submission
     }
   }
 
-  // Close modal
-  onClose() {
-    this.closeModal.emit(); // Emit event when close button is clicked
+  onClose(): void {
+    this.closeModal.emit();
   }
 }

@@ -6,16 +6,18 @@
       {{ activeBoardName }}
     </p>
   </div>
-  
+
   <div class="flex justify-center items-center gap-3">
     <button (click)="toggleModal()" class="bg-dark-purple dark:bg-light-purple rounded-full flex justify-center items-center gap-1 text-light p-2 font-bold text-[12px] hover:bg-light-purple dark:hover:bg-dark-purple">
       <img src="/assets/icon-add-task-mobile.svg" alt="icon plus" class="w-2 h-2 rounded-full flex justify-center items-center" />
       <span class="text-white lg:text-sm">Add New Task</span>
     </button>
-    
+
     <img class="hover:bg-lighter-grayish-blue dark:hover:bg-grayish-dark p-2 rounded-full flex justify-center items-center" src="/assets/icon-vertical-ellipsis.svg" alt="icon-vertical-ellipsi" />
   </div>
 
-  <!-- Modal Component -->
-  <app-modal *ngIf="showModal" (close)="toggleModal()"></app-modal>
-</div> 
+  <!-- Modal Component for adding a task -->
+  <app-modal *ngIf="showModal" (close)="toggleModal()">
+    <app-add-task [columns]="columns" (close)="toggleModal()"></app-add-task>
+  </app-modal>
+</div>

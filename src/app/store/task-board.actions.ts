@@ -43,4 +43,9 @@ export const createBoardSuccess = createAction(
 export const createBoardFailure = createAction(
   '[Task Board] Create Board Failure',
   props<{ error: any }>()
+); 
+
+export const updateBoard = createAction(
+  '[Task Board] Update Board',
+  props<{ board: Board }>()
 );
