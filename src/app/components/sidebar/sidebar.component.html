@@ -1,40 +1,81 @@
-<div [ngClass]="{'hidden md:flex': isSidebarHidden}" class="transition-all duration-300 flex bg-white dark:bg-dark-gray h-full flex-col justify-between font-semibold p-6 text-grayish-blue dark:text-grayish-blue">
+<div
+  [ngClass]="{ 'hidden lg:flex': isSidebarHidden }"
+  class="transition-all duration-300 flex w-1/5 bg-white dark:bg-dark-gray h-full flex-col justify-between font-semibold p-6 text-grayish-blue dark:text-grayish-blue fixed"
+>
   <div class="flex flex-col gap-y-2">
-    <span class="hover:text-light-grayish-blue hover:bg-dark-purple py-2 rounded-r-full font-normal">All Boards (3)</span>
-    <button class="flex gap-2 py-2 hover:text-light-grayish-blue hover:bg-dark-purple rounded-r-full">
-      <img src="assets/icon-board.svg" alt="" />
-      <span>Platform Launch</span>
-    </button>
-    <button class="flex gap-2 py-2 hover:text-light-grayish-blue hover:bg-dark-purple rounded-r-full">
-      <img src="assets/icon-board.svg" alt="" />
-      <span>Marketing Plan</span>
-    </button>
-    <button class="flex gap-2 py-2 hover:text-light-grayish-blue hover:bg-dark-purple rounded-r-full">
-      <img src="assets/icon-board.svg" alt="" />
-      <span>Load Map</span>
-    </button>
-    <button class="flex gap-2 py-2 font-bold">
+    <img
+      class="dark:hidden block mb-4 px-6"
+      src="/assets/logo-dark.svg"
+      alt="logo"
+    />
+    <img
+      class="dark:block hidden mb-4 px-6"
+      src="/assets/logo-light.svg"
+      alt="logo"
+    />
+
+    <ng-container *ngIf="boards$ | async as boards">
+      <span
+        class="hover:text-light-grayish-blue py-2 rounded-r-full font-normal"
+      >
+        All Boards ({{ boards.length }})
+      </span>
+
+      <ng-container *ngFor="let board of boards">
+        <button
+          (click)="setActiveBoard(board)"
+          [ngClass]="{
+            'bg-dark-purple text-white': board === activeBoard,
+            'hover:text-dark-gray hover:bg-light-grayish-blue':
+              board !== activeBoard
+          }"
+          class="flex gap-2 py-2 rounded-r-full"
+        >
+          <img src="assets/icon-board.svg" alt="" />
+          <span>{{ board.name }}</span>
+        </button>
+      </ng-container>
+    </ng-container>
+
+    <button
+      (click)="isCreateBoardModalOpen = true"
+      class="flex gap-2 py-2 font-bold"
+    >
       <img src="assets/icon-board.svg" alt="" />
       <span class="text-dark-purple">+ Create New Board</span>
     </button>
   </div>
 
-  <!-- Dark Mode Toggle Section -->
   <div class="flex flex-col">
-    <div class="flex items-center justify-center gap-5 bg-light-grayish-blue dark:bg-grayish-dark md:h-12 relative">
+    <div
+      class="flex items-center justify-center gap-5 bg-light-grayish-blue dark:bg-grayish-dark md:h-12 relative"
+    >
       <img src="/assets/icon-light-theme.svg" alt="" />
       <label class="switch relative w-16 md:w-24">
-        <span class="slider round absolute inset-0" (click)="toggleDarkMode()"></span>
+        <input type="checkbox" (change)="toggleDarkMode()" />
+        <span class="slider round absolute inset-0"></span>
       </label>
+
       <img src="/assets/icon-dark-theme.svg" alt="" />
     </div>
 
-    <!-- Hide Sidebar Button -->
-    <div class="flex justify-start py-2">
-      <button (click)="toggleSidebar()">
-        <img class="mr-2" src="/assets/icon-hide-sidebar.svg" alt="hide-sidebar" />
+    <div
+      (click)="toggleSidebar()"
+      class="flex justify-start py-2 cursor-pointer"
+    >
+      <button>
+        <img
+          class="mr-2"
+          src="/assets/icon-hide-sidebar.svg"
+          alt="hide-sidebar"
+        />
       </button>
       <span>Hide Sidebar</span>
     </div>
   </div>
 </div>
+
+<app-create-board-modal
+  *ngIf="isCreateBoardModalOpen"
+  (closeModal)="onModalClose()"
+></app-create-board-modal>

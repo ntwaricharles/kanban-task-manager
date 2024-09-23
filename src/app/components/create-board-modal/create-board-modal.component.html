@@ -1,0 +1,72 @@
+<div
+  class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+  (click)="onClose()"
+>
+  <div
+    class="bg-white dark:bg-dark-gray rounded-lg p-6 w-11/12 max-w-md"
+    (click)="$event.stopPropagation()"
+  >
+    <h2 class="text-xl font-bold mb-4 dark:text-gray-200">{{ isEditing ? 'Edit Board' : 'Create New Board' }}</h2>
+
+    <form (ngSubmit)="onSubmit()" [formGroup]="boardForm">
+      <!-- Board Name -->
+      <div class="mb-4">
+        <label for="boardName" class="block text-gray-700 dark:text-gray-300 mb-2">Board Name</label>
+        <input
+          id="boardName"
+          type="text"
+          formControlName="boardName"
+          class="w-full p-2 border border-gray-300 dark:border-gray-600 dark:bg-dark-gray dark:text-gray-200 rounded-lg"
+          placeholder="Board Name"
+          required
+        />
+      </div>
+
+      <!-- Columns -->
+      <div formArrayName="columns" class="mb-4">
+        <label class="block text-gray-700 dark:text-gray-300 mb-2">Columns</label>
+        <div
+          *ngFor="let column of columns.controls; let i = index"
+          [formGroupName]="i"
+          class="flex items-center mb-2"
+        >
+          <input
+            formControlName="name"
+            type="text"
+            class="flex-1 p-2 border border-gray-300 dark:border-gray-600 dark:bg-dark-gray dark:text-gray-200 rounded-lg"
+            placeholder="Column Name"
+            required
+          />
+          <button
+            type="button"
+            class="ml-2"
+            (click)="removeColumn(i)"
+          >
+            <img
+              src="assets/icon-cross.svg"
+              alt="Remove"
+              class="w-5 h-5 cursor-pointer"
+            />
+          </button>
+        </div>
+      </div>
+
+      <!-- Add New Column Button -->
+      <button
+        type="button"
+        (click)="addColumn()"
+        class="w-full p-2 bg-light-grayish-blue dark:bg-gray-600 text-dark-purple font-bold rounded-full mb-2"
+      >
+        + Add New Column
+      </button>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        class="w-full bg-dark-purple text-lighter-grayish-blue dark:text-gray-200 p-2 font-bold rounded-full"
+      >
+        {{ isEditing ? 'Save Changes' : 'Create New Board' }}
+      </button>
+    </form>
+  </div>
+</div>

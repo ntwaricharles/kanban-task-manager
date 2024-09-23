@@ -1,16 +1,46 @@
-<div class="flex justify-between items-center w-full bg-white dark:bg-dark-gray p-4 transition-all duration-300">
+<div
+  class="flex fixed justify-between items-center w-full bg-white dark:bg-dark-gray p-4 transition-all duration-300"
+>
   <div class="flex justify-start items-start w-1/2">
-    <img class=" dark:hidden block w-1/3 px-6" src="/assets/logo-dark.svg" alt="logo" />
-    <img class=" dark:block hidden w-1/3 px-6" src="/assets/logo-light.svg" alt="logo" />
-    <p class="font-bold text-xl text-darker-blue dark:text-lighter-grayish-blue">Platform Launch</p>
+    <img
+      class="dark:hidden block w-1/3 px-6"
+      src="/assets/logo-dark.svg"
+      alt="logo"
+    />
+    <img
+      class="dark:block hidden w-1/3 px-6"
+      src="/assets/logo-light.svg"
+      alt="logo"
+    />
+    <p
+      class="font-bold text-xl text-darker-blue ml-10 dark:text-lighter-grayish-blue"
+    >
+      {{ activeBoardName }}
+    </p>
   </div>
-  
+
   <div class="flex justify-center items-center gap-3">
-    <button class="bg-dark-purple dark:bg-light-purple rounded-full flex justify-center items-center gap-1 text-light p-2 font-bold text-[12px] hover:bg-light-purple dark:hover:bg-dark-purple">
-      <img src="/assets/icon-add-task-mobile.svg" alt="icon plus" class="w-2 h-2 rounded-full flex justify-center items-center" />
+    <button
+      (click)="toggleModal()"
+      class="bg-dark-purple dark:bg-light-purple rounded-full flex justify-center items-center gap-1 text-light p-2 font-bold text-[12px] hover:bg-light-purple dark:hover:bg-dark-purple"
+    >
+      <img
+        src="/assets/icon-add-task-mobile.svg"
+        alt="icon plus"
+        class="w-2 h-2 rounded-full flex justify-center items-center"
+      />
       <span class="text-white lg:text-sm">Add New Task</span>
     </button>
-    
-    <img class="hover:bg-lighter-grayish-blue dark:hover:bg-grayish-dark p-2 rounded-full flex justify-center items-center" src="/assets/icon-vertical-ellipsis.svg" alt="icon-vertical-ellipsi" />
+
+    <img
+      class="hover:bg-lighter-grayish-blue dark:hover:bg-grayish-dark p-2 rounded-full flex justify-center items-center"
+      src="/assets/icon-vertical-ellipsis.svg"
+      alt="icon-vertical-ellipsi"
+    />
   </div>
+
+  <!-- Modal Component for adding a task -->
+  <app-modal *ngIf="showModal" (close)="toggleModal()">
+    <app-add-task (close)="toggleModal()"></app-add-task>
+  </app-modal>
 </div>

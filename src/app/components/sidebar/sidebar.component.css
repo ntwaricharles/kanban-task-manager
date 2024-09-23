@@ -18,7 +18,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: hsl(213, 96%, 18%);
+  background-color: #635FC7;
   transition: 0.4s;
   border-radius: 34px;
 }
@@ -36,7 +36,7 @@
 }
 
 input:checked + .slider {
-  background-color: hsl(213, 96%, 18%);
+  background-color: #635FC7;
 }
 
 input:checked + .slider:before {
@@ -48,5 +48,5 @@ input:checked + .slider:before {
 }
 
 .border-blue-500 {
-  border-color: hsl(213, 96%, 18%);
+  border-color: #635FC7
 }

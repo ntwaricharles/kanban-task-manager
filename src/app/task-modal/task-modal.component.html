@@ -1,0 +1,31 @@
+<div class="modal-bg">
+  <div class="modal-content">
+    <h2 class="text-xl font-bold">{{ task?.title }}</h2>
+    <button (click)="onClose()">Close</button>
+
+    <div *ngIf="task">
+      <h3 class="font-semibold mt-4">Subtasks</h3>
+      <ul>
+        <li *ngFor="let subtask of task.subtasks; let i = index">
+          <label>
+            <input
+              type="checkbox"
+              [checked]="subtask.isCompleted"
+              (change)="toggleSubtask(i)"
+            />
+            {{ subtask.title }}
+          </label>
+        </li>
+      </ul>
+
+      <div class="mt-4">
+        <label for="status" class="font-semibold">Change Status:</label>
+        <select id="status" (change)="changeStatus($event)">
+          <option *ngFor="let status of statuses" [value]="status">
+            {{ status }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
