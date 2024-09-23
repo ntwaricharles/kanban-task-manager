@@ -30,7 +30,7 @@ export class TaskBoardComponent implements OnInit {
     this.boards$.subscribe((boards) => {
       if (boards && boards.length > 0) {
         if (!this.activeBoard) {
-          this.setActiveBoard(boards[0]); // Default to the first board
+          this.setActiveBoard(boards[0]);
         }
         this.store.select(selectTaskBoardState).subscribe((state) => {
           const activeBoard = state.boards.find(
@@ -51,18 +51,18 @@ export class TaskBoardComponent implements OnInit {
 
   // Open the modal to add a new column
   openCreateColumnModal() {
-    this.isCreateColumnModalOpen = true; // Show the modal
+    this.isCreateColumnModalOpen = true;
   }
 
   // Close the modal after saving changes
   closeCreateColumnModal() {
-    this.isCreateColumnModalOpen = false; // Hide the modal
+    this.isCreateColumnModalOpen = false;
   }
 
   // Update board after adding a column
   onSaveBoard(updatedBoard: Board) {
     this.store.dispatch(updateBoard({ board: updatedBoard }));
-    this.closeCreateColumnModal(); // Close the modal after saving
+    this.closeCreateColumnModal(); 
   }
 
   toggleAddTaskModal() {

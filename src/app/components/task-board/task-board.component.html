@@ -22,8 +22,8 @@
 <app-create-board-modal
   *ngIf="isCreateColumnModalOpen"
   [board]="activeBoard"
-  (closeModal)="closeCreateColumnModal()"  
-  (saveBoard)="onSaveBoard($event)" 
+  (closeModal)="closeCreateColumnModal()"
+  (saveBoard)="onSaveBoard($event)"
 ></app-create-board-modal>
 
 <app-task-modal
@@ -35,9 +35,9 @@
 ></app-task-modal>
 
 <app-modal *ngIf="isAddTaskModalOpen" (close)="toggleAddTaskModal()">
-  <app-add-task 
-    [columns]="columns"
-    (close)="toggleAddTaskModal()" 
-    (createTask)="onCreateTask($event)">
+  <app-add-task
+    (close)="toggleAddTaskModal()"
+    (createTask)="onCreateTask($event)"
+  >
   </app-add-task>
 </app-modal>

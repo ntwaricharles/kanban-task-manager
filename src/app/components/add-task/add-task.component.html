@@ -10,10 +10,19 @@
         class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300"
         placeholder="e.g. Take coffee break"
       />
-      <div *ngIf="taskForm.get('title')?.invalid && (taskForm.get('title')?.touched || taskForm.get('title')?.dirty)"
-        class="text-red-500">
-        <small *ngIf="taskForm.get('title')?.errors?.['required']">Title is required.</small>
-        <small *ngIf="taskForm.get('title')?.errors?.['minlength']">Title must be at least 3 characters long.</small>
+      <div
+        *ngIf="
+          taskForm.get('title')?.invalid &&
+          (taskForm.get('title')?.touched || taskForm.get('title')?.dirty)
+        "
+        class="text-red-500"
+      >
+        <small *ngIf="taskForm.get('title')?.errors?.['required']"
+          >Title is required.</small
+        >
+        <small *ngIf="taskForm.get('title')?.errors?.['minlength']"
+          >Title must be at least 3 characters long.</small
+        >
       </div>
     </div>
 
@@ -25,9 +34,17 @@
         rows="4"
         placeholder="e.g. It’s always good to take a break."
       ></textarea>
-      <div *ngIf="taskForm.get('description')?.invalid && (taskForm.get('description')?.touched || taskForm.get('description')?.dirty)"
-        class="text-red-500">
-        <small *ngIf="taskForm.get('description')?.errors?.['required']">Description is required.</small>
+      <div
+        *ngIf="
+          taskForm.get('description')?.invalid &&
+          (taskForm.get('description')?.touched ||
+            taskForm.get('description')?.dirty)
+        "
+        class="text-red-500"
+      >
+        <small *ngIf="taskForm.get('description')?.errors?.['required']"
+          >Description is required.</small
+        >
       </div>
     </div>
 
@@ -35,7 +52,10 @@
     <div class="mb-4">
       <p class="text-gray-600 mb-1">Subtasks</p>
       <div formArrayName="subtasks">
-        <div *ngFor="let subtask of subtasks.controls; let i = index" class="flex items-center mb-2">
+        <div
+          *ngFor="let subtask of subtasks.controls; let i = index"
+          class="flex items-center mb-2"
+        >
           <input
             [formControlName]="i"
             type="text"
@@ -43,14 +63,26 @@
             placeholder="e.g. Prepare coffee"
           />
           <button>
-            <img src="assets/icon-cross.svg" alt="Remove" class="w-5 h-5 ml-2 cursor-pointer" (click)="removeSubtask(i)" />
+            <img
+              src="assets/icon-cross.svg"
+              alt="Remove"
+              class="w-5 h-5 ml-2 cursor-pointer"
+              (click)="removeSubtask(i)"
+            />
           </button>
-          <div *ngIf="subtask.invalid && (subtask.touched || subtask.dirty)" class="text-red-500">
+          <div
+            *ngIf="subtask.invalid && (subtask.touched || subtask.dirty)"
+            class="text-red-500"
+          >
             <small>Subtask is required.</small>
           </div>
         </div>
       </div>
-      <button type="button" (click)="addSubtask()" class="w-full p-2 bg-[#F4F7FD] text-[#635FC7] rounded-full mt-2">
+      <button
+        type="button"
+        (click)="addSubtask()"
+        class="w-full p-2 bg-[#F4F7FD] text-[#635FC7] rounded-full mt-2"
+      >
         <span class="text-xl mr-1">+</span> Add Subtask
       </button>
     </div>
@@ -58,19 +90,32 @@
     <!-- Status (Column Name) Dropdown -->
     <div class="mb-4">
       <label class="text-gray-600 mb-1">Status</label>
-      <select formControlName="status" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300">
+      <select
+        formControlName="status"
+        class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+      >
         <option value="">Select Column</option>
         <!-- Dynamically populate the dropdown with columns (statuses) -->
-        <option *ngFor="let column of columns" [value]="column.name">{{ column.name }}</option>
+        <option *ngFor="let column of columns" [value]="column.name">
+          {{ column.name }}
+        </option>
       </select>
-      <div *ngIf="taskForm.get('status')?.invalid && (taskForm.get('status')?.touched || taskForm.get('status')?.dirty)"
-        class="text-red-500">
+      <div
+        *ngIf="
+          taskForm.get('status')?.invalid &&
+          (taskForm.get('status')?.touched || taskForm.get('status')?.dirty)
+        "
+        class="text-red-500"
+      >
         <small>Status selection is required.</small>
       </div>
     </div>
 
     <!-- Submit Button -->
-    <button type="submit" class="w-full bg-[#635FC7] text-white p-2 rounded-full hover:bg-blue-600 transition-colors">
+    <button
+      type="submit"
+      class="w-full bg-[#635FC7] text-white p-2 rounded-full hover:bg-blue-600 transition-colors"
+    >
       Create Task
     </button>
   </form>

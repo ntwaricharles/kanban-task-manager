@@ -1,7 +1,7 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormArray, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { createBoard, updateBoard } from '../../store/task-board.actions'; // Import updateBoard action
+import { createBoard, updateBoard } from '../../store/task-board.actions'; 
 import { Board } from '../../board.model';
 
 @Component({
@@ -9,7 +9,7 @@ import { Board } from '../../board.model';
   templateUrl: './create-board-modal.component.html',
 })
 export class CreateBoardModalComponent {
-  @Input() board: Board | null = null; // Input to pass the board for editing
+  @Input() board: Board | null = null; 
   @Output() closeModal = new EventEmitter<void>(); // Emit event to close modal
   @Output() saveBoard = new EventEmitter<Board>();
 
@@ -87,7 +87,7 @@ export class CreateBoardModalComponent {
         this.store.dispatch(createBoard({ board: updatedBoard }));
       }
 
-      this.onClose(); // Close the modal after submission
+      this.onClose();
     }
   }
 

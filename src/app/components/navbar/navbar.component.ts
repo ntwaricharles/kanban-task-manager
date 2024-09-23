@@ -8,7 +8,7 @@ import { Column } from '../../board.model';
 })
 export class NavbarComponent {
   @Input() activeBoardName!: string;
-  @Input() columns: Column[] = []; // Pass the active board's columns
+  @Input() columns: Column[] = [];
 
   showModal: boolean = false;
 
