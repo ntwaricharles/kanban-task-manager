@@ -1,4 +1,23 @@
-<div class="cursor-pointer bg-white dark:bg-grayish-dark rounded-lg shadow-md p-4">
-  <h4 class="text-lg font-medium text-darker-blue dark:text-lighter-grayish-blue">{{ task.title }}</h4>
-  <p class="text-sm text-light-purple dark:text-grayish-blue mt-1">{{ getCompletedSubtasks() }}</p>
+<div
+  class="cursor-pointer bg-white dark:bg-grayish-dark rounded-lg shadow-md p-4"
+  (click)="openModal()"
+>
+  <h4
+    class="text-lg font-medium text-darker-blue dark:text-lighter-grayish-blue"
+  >
+    {{ task.title }}
+  </h4>
+  <p class="text-sm text-light-purple dark:text-grayish-blue mt-1">
+    {{ getCompletedSubtasks() }}
+  </p>
 </div>
+
+<!-- Task Modal -->
+<app-task-modal
+  *ngIf="showModal"
+  [task]="task"
+  [columns]="columns"
+  (closeModal)="closeModal()"
+  (statusChanged)="handleStatusChange($event)"
+  (subtaskToggled)="handleSubtaskToggled($event)"
+></app-task-modal>

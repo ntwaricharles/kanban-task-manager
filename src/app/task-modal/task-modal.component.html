@@ -1,31 +1,93 @@
-<div class="modal-bg">
-  <div class="modal-content">
-    <h2 class="text-xl font-bold">{{ task?.title }}</h2>
-    <button (click)="onClose()">Close</button>
+<div
+  class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+  (click)="closeOnOverlayClick()"
+>
+  <div
+    class="bg-white dark:bg-dark-gray rounded-lg shadow-lg p-6 w-11/12 max-w-md relative"
+    (click)="$event.stopPropagation()"
+  >
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-white">
+        {{ task?.title }}
+      </h2>
 
-    <div *ngIf="task">
-      <h3 class="font-semibold mt-4">Subtasks</h3>
-      <ul>
-        <li *ngFor="let subtask of task.subtasks; let i = index">
-          <label>
-            <input
-              type="checkbox"
-              [checked]="subtask.isCompleted"
-              (change)="toggleSubtask(i)"
-            />
-            {{ subtask.title }}
-          </label>
-        </li>
-      </ul>
+      <div class="relative">
+        <img
+          (click)="toggleDropdown()"
+          class="hover:bg-lighter-grayish-blue dark:hover:bg-grayish-dark p-2 rounded-full font-semibold flex justify-center items-center cursor-pointer"
+          src="/assets/icon-vertical-ellipsis.svg"
+          alt="icon-vertical-ellipsis"
+        />
 
-      <div class="mt-4">
-        <label for="status" class="font-semibold">Change Status:</label>
-        <select id="status" (change)="changeStatus($event)">
-          <option *ngFor="let status of statuses" [value]="status">
-            {{ status }}
-          </option>
-        </select>
+        <div
+          *ngIf="dropdownVisible"
+          class="absolute right-0 w-48 mt-2 bg-white dark:bg-grayish-dark shadow-lg rounded-md p-2"
+        >
+          <button
+            class="block text-left w-full px-4 py-2 dark:text-lighter-grayish-blue"
+            (click)="editTask()"
+          >
+            Edit Task
+          </button>
+          <button
+            class="block text-light-red text-left w-full px-4 py-2"
+            (click)="deleteTask()"
+          >
+            Delete Task
+          </button>
+        </div>
       </div>
+    </div>
+
+    <!-- Task Description -->
+    <p class="text-gray-600 dark:text-gray-400 mb-4">{{ task?.description }}</p>
+
+    <!-- Subtask Completion Counter -->
+    <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">
+      Subtasks ({{ completedSubtasks() }} of
+      {{ task?.subtasks?.length }} completed)
+    </h3>
+
+    <!-- Subtasks -->
+    <ul class="space-y-2 mb-4">
+      <li
+        *ngFor="let subtask of task?.subtasks"
+        class="flex items-center bg-gray-100 dark:bg-grayish-dark p-3 rounded-lg"
+      >
+        <input
+          type="checkbox"
+          [checked]="subtask.isCompleted"
+          (change)="toggleSubtask(subtask)"
+          class="mr-2 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+        />
+        <span
+          [class.line-through]="subtask.isCompleted"
+          class="text-gray-800 dark:text-gray-300"
+        >
+          {{ subtask.title }}
+        </span>
+      </li>
+    </ul>
+
+    <!-- Task Status Dropdown -->
+    <div *ngIf="task" class="mb-4">
+      <label
+        for="status"
+        class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1"
+        >Status:</label
+      >
+      <select
+        id="status"
+        class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring focus:border-blue-300 dark:bg-dark-gray dark:text-white"
+        [(ngModel)]="task.status"
+        (change)="onStatusChange($event)"
+      >
+        <option value="">Select Status</option>
+        <!-- Dynamically populate the dropdown with columns (statuses) -->
+        <option *ngFor="let column of columns" [value]="column.name">
+          {{ column.name }}
+        </option>
+      </select>
     </div>
   </div>
 </div>

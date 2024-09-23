@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Task } from '../../board.model'; // Use the correct Task model
+import { Task, Column } from '../../board.model'; 
 
 @Component({
   selector: 'app-task-card',
@@ -7,9 +7,35 @@ import { Task } from '../../board.model'; // Use the correct Task model
   styleUrls: ['./task-card.component.css'],
 })
 export class TaskCardComponent {
-  @Input() task!: Task; // Task passed from TaskListComponent
+  @Input() task!: Task;
+  @Input() columns: Column[] = [];
 
-  // Method to calculate completed subtasks
+  showModal = false; 
+
+  openModal() {
+    this.showModal = true;
+  }
+
+  closeModal() {
+    this.showModal = false;
+  }
+
+  handleStatusChange(newStatus: string) {
+    this.task.status = newStatus;
+    this.closeModal();
+  }
+
+  handleSubtaskToggled({
+    task,
+    subtaskIndex,
+  }: {
+    task: Task;
+    subtaskIndex: number;
+  }) {
+    task.subtasks[subtaskIndex].isCompleted =
+      !task.subtasks[subtaskIndex].isCompleted;
+  }
+
   getCompletedSubtasks(): string {
     const totalSubtasks = this.task.subtasks.length;
     const completedSubtasks = this.task.subtasks.filter(

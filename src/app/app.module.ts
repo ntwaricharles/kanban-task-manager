@@ -37,7 +37,7 @@ import { CreateBoardModalComponent } from './components/create-board-modal/creat
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule, 
+    FormsModule,
     CommonModule,
     HttpClientModule,
     StoreModule.forRoot({ taskBoard: taskBoardReducer }),

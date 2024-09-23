@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Column } from '../../board.model'; // Use the correct types
+import { Column } from '../../board.model';
 
 @Component({
   selector: 'app-task-list',
@@ -7,5 +7,5 @@ import { Column } from '../../board.model'; // Use the correct types
   styleUrls: ['./task-list.component.css'],
 })
 export class TaskListComponent {
-  @Input() column!: Column; // Column data passed from parent
+  @Input() column!: Column;
 }

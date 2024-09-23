@@ -1,7 +1,7 @@
-<div class="bg-lighter-grayish-blue dark:bg-dark-gray min-h-screen">
+<div class=" bg-lighter-grayish-blue dark:bg-dark-gray min-h-screen">
   <div
     *ngIf="columns.length > 0"
-    class="grid grid-cols-1 md:grid-cols-4 gap-4 w-full"
+    class="grid grid-cols-1 ml-4 md:grid-cols-4 gap-4 w-full"
   >
     <ng-container *ngFor="let column of columns">
       <app-task-list [column]="column"></app-task-list>
@@ -29,6 +29,7 @@
 <app-task-modal
   *ngIf="selectedTask"
   [task]="selectedTask"
+  [columns]="columns"
   (closeModal)="closeTaskModal()"
   (statusChanged)="changeTaskStatus($event)"
   (subtaskToggled)="toggleSubtask($event)"

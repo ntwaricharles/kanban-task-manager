@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   isDarkMode = false;
-  activeBoard: string = 'Platform Launch'; // Default board name
+  activeBoard: string = 'Platform Launch'; 
 
   ngOnInit() {
     this.isDarkMode = localStorage.getItem('darkMode') === 'true';

@@ -11,8 +11,13 @@ export class NavbarComponent {
   @Input() columns: Column[] = [];
 
   showModal: boolean = false;
+  dropdownVisible = false;
 
   toggleModal() {
     this.showModal = !this.showModal;
+  }
+
+  toggleDropdown() {
+    this.dropdownVisible = !this.dropdownVisible;
   }
 }

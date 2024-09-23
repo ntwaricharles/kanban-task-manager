@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Task } from '../board.model';
+import { Column, Subtask, Task } from '../board.model';
 
 @Component({
   selector: 'app-task-modal',
@@ -8,35 +8,50 @@ import { Task } from '../board.model';
 })
 export class TaskModalComponent {
   @Input() task: Task | null = null;
+  @Input() columns: Column[] = [];
   @Output() closeModal = new EventEmitter<void>();
   @Output() statusChanged = new EventEmitter<string>();
   @Output() subtaskToggled = new EventEmitter<{
-    task: Task;
+    task: any;
     subtaskIndex: number;
   }>();
 
-  // Add the statuses array with possible task statuses
-  statuses: string[] = ['To Do', 'In Progress', 'Completed'];
-
-  changeStatus(event: Event): void {
-    const selectElement = event.target as HTMLSelectElement | null;
-
-    if (selectElement) {
-      const newStatus = selectElement.value;
-      if (this.task) {
-        this.task.status = newStatus;
-        this.statusChanged.emit(newStatus); // Emit new status to parent component
-      }
-    }
+  onStatusChange(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    this.statusChanged.emit(target.value);
   }
 
-  toggleSubtask(index: number) {
-    if (this.task) {
-      this.subtaskToggled.emit({ task: this.task, subtaskIndex: index });
-    }
+  // Function to count completed subtasks
+  completedSubtasks(): number {
+    if (!this.task || !this.task.subtasks) return 0;
+    return this.task.subtasks.filter(
+      (subtask: { isCompleted: boolean }) => subtask.isCompleted
+    ).length;
   }
 
-  onClose() {
+  dropdownVisible = false;
+
+  toggleDropdown() {
+    this.dropdownVisible = !this.dropdownVisible;
+  }
+
+  closeOnOverlayClick() {
     this.closeModal.emit();
+  }
+
+  editTask() {
+    console.log('Edit Task:', this.task);
+    this.dropdownVisible = false;
+  }
+
+  deleteTask() {
+    if (confirm('Are you sure you want to delete this task?')) {
+      console.log('Delete Task:', this.task);
+      this.closeModal.emit();
+    }
+  }
+
+  toggleSubtask(subtask: Subtask) {
+    subtask.isCompleted = !subtask.isCompleted;
   }
 }

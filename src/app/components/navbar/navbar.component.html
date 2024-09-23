@@ -32,11 +32,29 @@
       <span class="text-white lg:text-sm">Add New Task</span>
     </button>
 
-    <img
-      class="hover:bg-lighter-grayish-blue dark:hover:bg-grayish-dark p-2 rounded-full flex justify-center items-center"
-      src="/assets/icon-vertical-ellipsis.svg"
-      alt="icon-vertical-ellipsi"
-    />
+    <div class="relative">
+      <img
+        (click)="toggleDropdown()"
+        class="hover:bg-lighter-grayish-blue dark:hover:bg-grayish-dark p-2 rounded-full font-semibold flex justify-center items-center cursor-pointer"
+        src="/assets/icon-vertical-ellipsis.svg"
+        alt="icon-vertical-ellipsis"
+      />
+      <div
+        *ngIf="dropdownVisible"
+        class="absolute right-0 w-48 mt-2 bg-white dark:bg-grayish-dark shadow-lg rounded-md p-2 cursor-pointer"
+      >
+        <button
+          class="block text-left w-full px-4 py-2 dark:text-lighter-grayish-blue"
+        >
+          Edit Board
+        </button>
+        <button
+          class="block text-light-red text-left w-full px-4 py-2 "
+        >
+          Delete Board
+        </button>
+      </div>
+    </div>
   </div>
 
   <app-modal *ngIf="showModal" (close)="toggleModal()">

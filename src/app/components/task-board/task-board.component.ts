@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { loadBoards, setActiveBoardName, updateBoard } from '../../store/task-board.actions';
+import { loadBoards, setActiveBoardName, updateBoard, updateTask } from '../../store/task-board.actions';
 import { selectAllTasks, selectTaskBoardState } from '../../store/task-board.selectors';
 import { Board, Column, Task } from '../../board.model';
 import { TaskBoardState } from '../../store/task-board.reducer';
@@ -116,6 +116,7 @@ export class TaskBoardComponent implements OnInit {
     if (this.selectedTask) {
       this.selectedTask.status = newStatus;
       this.updateTaskInColumns(this.selectedTask);
+      this.store.dispatch(updateTask({ task: this.selectedTask }));
       this.closeTaskModal();
     }
   }
