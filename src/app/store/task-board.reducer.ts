@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { loadBoardsSuccess, loadBoardsFailure, setActiveBoardName, updateTask, createBoard, updateBoard } from './task-board.actions';
+import { loadBoardsSuccess, loadBoardsFailure, setActiveBoardName, updateTask, createBoard, updateBoard, addTask } from './task-board.actions';
 import { Board } from '../board.model';
 
 // Define the shape of the Task Board state
@@ -43,6 +43,33 @@ export const taskBoardReducer = createReducer(
     ...state,
     activeBoardName: boardName, // Update active board name
   })),
+
+  on(addTask, (state, { boardName, columnName, task }) => {
+    const updatedBoards = state.boards.map((board) => {
+      if (board.name === boardName) {
+        const updatedColumns = board.columns.map((column) => {
+          if (column.name === columnName) {
+            return {
+              ...column,
+              tasks: [...column.tasks, task], // Add the new task to the column
+            };
+          }
+          return column;
+        });
+
+        return {
+          ...board,
+          columns: updatedColumns,
+        };
+      }
+      return board;
+    });
+
+    return {
+      ...state,
+      boards: updatedBoards,
+    };
+  }),
 
   on(updateTask, (state, { task }) => {
     const updatedBoards = state.boards.map((board) => {

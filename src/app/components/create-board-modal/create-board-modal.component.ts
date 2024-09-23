@@ -10,16 +10,16 @@ import { Board } from '../../board.model';
 })
 export class CreateBoardModalComponent {
   @Input() board: Board | null = null; 
-  @Output() closeModal = new EventEmitter<void>(); // Emit event to close modal
+  @Output() closeModal = new EventEmitter<void>();
   @Output() saveBoard = new EventEmitter<Board>();
 
   boardForm: FormGroup;
-  isEditing: boolean = false; // Track if we're in editing mode
+  isEditing: boolean = false;
 
   constructor(private fb: FormBuilder, private store: Store) {
     this.boardForm = this.fb.group({
       boardName: ['', Validators.required],
-      columns: this.fb.array([]), // Initialize an empty form array
+      columns: this.fb.array([]),
     });
   }
 
@@ -42,7 +42,7 @@ export class CreateBoardModalComponent {
       this.isEditing = false;
       this.boardForm.reset();
       this.columns.clear();
-      this.addColumn(); // Add default columns for creating new board
+      this.addColumn();
       this.addColumn();
     }
   }
@@ -72,7 +72,7 @@ export class CreateBoardModalComponent {
         columns: columns.map((col: { name: string }) => ({
           name: col.name,
           tasks:
-            this.board?.columns.find((c) => c.name === col.name)?.tasks || [], // Retain tasks if editing
+            this.board?.columns.find((c) => c.name === col.name)?.tasks || [],
         })),
       };
 
@@ -80,10 +80,8 @@ export class CreateBoardModalComponent {
       this.saveBoard.emit(updatedBoard);
 
       if (this.isEditing && this.board) {
-        // Update existing board
         this.store.dispatch(updateBoard({ board: updatedBoard }));
       } else {
-        // Create new board
         this.store.dispatch(createBoard({ board: updatedBoard }));
       }
 

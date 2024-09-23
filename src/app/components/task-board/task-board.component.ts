@@ -39,6 +39,7 @@ export class TaskBoardComponent implements OnInit {
           if (activeBoard) {
             this.activeBoard = activeBoard;
             this.columns = activeBoard.columns;
+            console.log('Updated Active Board:', this.activeBoard);
           }
         });
       }
@@ -49,20 +50,17 @@ export class TaskBoardComponent implements OnInit {
     this.store.dispatch(setActiveBoardName({ boardName: board.name }));
   }
 
-  // Open the modal to add a new column
   openCreateColumnModal() {
     this.isCreateColumnModalOpen = true;
   }
 
-  // Close the modal after saving changes
   closeCreateColumnModal() {
     this.isCreateColumnModalOpen = false;
   }
 
-  // Update board after adding a column
   onSaveBoard(updatedBoard: Board) {
     this.store.dispatch(updateBoard({ board: updatedBoard }));
-    this.closeCreateColumnModal(); 
+    this.closeCreateColumnModal();
   }
 
   toggleAddTaskModal() {
@@ -90,6 +88,10 @@ export class TaskBoardComponent implements OnInit {
         ...this.activeBoard,
         columns: updatedColumns,
       };
+
+      // Log the updated board to ensure the task is being added
+      console.log('Updated Board after task creation:', updatedBoard);
+
       this.store.dispatch(updateBoard({ board: updatedBoard }));
     }
   }

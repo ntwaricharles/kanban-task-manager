@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Column } from '../../board.model';
 import { selectActiveBoard } from '../../store/task-board.selectors';
 import { TaskBoardState } from '../../store/task-board.reducer';
+import { addTask } from '../../store/task-board.actions';
 
 @Component({
   selector: 'app-add-task',
@@ -16,26 +17,27 @@ export class AddTaskComponent implements OnInit {
   @Output() createTask = new EventEmitter<any>();
 
   taskForm: FormGroup;
-  activeBoard$: Observable<any>; // Observable for the active board
+  activeBoard$: Observable<any>;
   columns: Column[] = [];
+  boardName: string | null = null;
+  columnName: string | null = null; 
 
   constructor(private fb: FormBuilder, private store: Store<TaskBoardState>) {
     this.taskForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', Validators.required],
       subtasks: this.fb.array([this.fb.control('', Validators.required)]),
-      status: ['', Validators.required], // Status (column name)
+      status: ['', Validators.required],
     });
 
-    // Select the active board
     this.activeBoard$ = this.store.select(selectActiveBoard);
   }
 
   ngOnInit() {
-    // Subscribe to the active board and get its data
     this.activeBoard$.subscribe((board) => {
       if (board) {
         this.columns = board.columns;
+        this.boardName = board.name;
         console.log('Active board:', board);
       }
     });
@@ -65,7 +67,18 @@ export class AddTaskComponent implements OnInit {
         status: this.taskForm.value.status,
       };
 
-      this.createTask.emit(newTask);
+      if (this.boardName && this.taskForm.value.status) {
+        this.store.dispatch(
+          addTask({
+            boardName: this.boardName,
+            columnName: this.taskForm.value.status,
+            task: newTask,
+          })
+        );
+      } else {
+        console.error('Board name or column name is null');
+      }
+
       this.close.emit();
       this.taskForm.reset();
     } else {

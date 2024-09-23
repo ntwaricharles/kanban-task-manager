@@ -39,7 +39,6 @@
     />
   </div>
 
-  <!-- Modal Component for adding a task -->
   <app-modal *ngIf="showModal" (close)="toggleModal()">
     <app-add-task (close)="toggleModal()"></app-add-task>
   </app-modal>

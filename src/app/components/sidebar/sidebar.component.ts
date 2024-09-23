@@ -15,7 +15,7 @@ export class SidebarComponent implements OnInit {
   isSidebarHidden = false;
   isCreateBoardModalOpen = false;
   boards$: Observable<Board[]>;
-  activeBoard: Board | null = null; // Track the currently active board
+  activeBoard: Board | null = null;
 
   @Output() boardSelected = new EventEmitter<Board>();
 
@@ -39,7 +39,7 @@ export class SidebarComponent implements OnInit {
   setActiveBoard(board: Board) {
     this.activeBoard = board;
     this.boardSelected.emit(board);
-    this.store.dispatch(setActiveBoardName({ boardName: board.name })); // Dispatch action
+    this.store.dispatch(setActiveBoardName({ boardName: board.name }));
   }
 
   ngOnInit() {
@@ -62,6 +62,6 @@ export class SidebarComponent implements OnInit {
   }
 
   onModalClose() {
-    this.isCreateBoardModalOpen = false; // Close modal when event is emitted
+    this.isCreateBoardModalOpen = false;
   }
 }
