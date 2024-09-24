@@ -1,4 +1,4 @@
-<div class=" bg-lighter-grayish-blue dark:bg-dark-gray min-h-screen">
+<div class="bg-lighter-grayish-blue dark:bg-dark-gray min-h-screen">
   <div
     *ngIf="columns.length > 0"
     class="grid grid-cols-1 ml-4 md:grid-cols-4 gap-4 w-full"
@@ -8,10 +8,10 @@
     </ng-container>
 
     <button
-      (click)="openCreateColumnModal()"
       class="flex flex-col justify-center h-screen items-center rounded-lg bg-light-grayish-blue dark:bg-grayish-dark p-1 text-grayish-dark dark:text-light-purple"
     >
       <span
+        (click)="openCreateColumnModal()"
         class="text-2xl font-bold hover:text-light-purple dark:hover:text-dark-purple"
         >+ New Column</span
       >

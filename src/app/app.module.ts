@@ -19,6 +19,7 @@ import { ModalComponent } from './components/modal/modal.component';
 import { AddTaskComponent } from './components/add-task/add-task.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CreateBoardModalComponent } from './components/create-board-modal/create-board-modal.component';
+import { DeleteModalComponent } from './components/delete-modal/delete-modal.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { CreateBoardModalComponent } from './components/create-board-modal/creat
     ModalComponent,
     AddTaskComponent,
     CreateBoardModalComponent,
+    DeleteModalComponent,
   ],
   imports: [
     BrowserModule,

@@ -44,18 +44,27 @@
         class="absolute right-0 w-48 mt-2 bg-white dark:bg-grayish-dark shadow-lg rounded-md p-2 cursor-pointer"
       >
         <button
+          (click)="openCreateColumnModal()"
           class="block text-left w-full px-4 py-2 dark:text-lighter-grayish-blue"
         >
           Edit Board
         </button>
         <button
-          class="block text-light-red text-left w-full px-4 py-2 "
+          (click)="deleteBoard()"
+          class="block text-light-red text-left w-full px-4 py-2"
         >
           Delete Board
         </button>
       </div>
     </div>
   </div>
+
+  <app-create-board-modal
+  *ngIf="isCreateColumnModalOpen"
+  [board]="activeBoard"
+  (closeModal)="closeCreateColumnModal()"
+  (saveBoard)="onSaveBoard($event)"
+></app-create-board-modal>
 
   <app-modal *ngIf="showModal" (close)="toggleModal()">
     <app-add-task (close)="toggleModal()"></app-add-task>

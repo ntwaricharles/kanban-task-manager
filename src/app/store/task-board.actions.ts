@@ -54,3 +54,8 @@ export const addTask = createAction(
   '[Task Board] Add Task',
   props<{ boardName: string; columnName: string; task: Task }>()
 );
+
+export const deleteBoard = createAction(
+  '[Task Board] Delete Board',
+  props<{ boardName: string }>()
+);

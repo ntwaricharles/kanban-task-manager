@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { loadBoardsSuccess, loadBoardsFailure, setActiveBoardName, updateTask, createBoard, updateBoard, addTask } from './task-board.actions';
+import { loadBoardsSuccess, loadBoardsFailure, setActiveBoardName, updateTask, createBoard, updateBoard, addTask, deleteBoard } from './task-board.actions';
 import { Board } from '../board.model';
 
 // Define the shape of the Task Board state
@@ -41,7 +41,14 @@ export const taskBoardReducer = createReducer(
 
   on(setActiveBoardName, (state, { boardName }) => ({
     ...state,
-    activeBoardName: boardName, // Update active board name
+    activeBoardName: boardName,
+  })),
+
+  on(deleteBoard, (state, { boardName }) => ({
+    ...state,
+    boards: state.boards.filter((board) => board.name !== boardName),
+    activeBoardName:
+      state.activeBoardName === boardName ? null : state.activeBoardName, // Reset activeBoard if deleted
   })),
 
   on(addTask, (state, { boardName, columnName, task }) => {
