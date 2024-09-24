@@ -27,13 +27,11 @@ export class CreateBoardModalComponent {
     return this.boardForm.get('columns') as FormArray;
   }
 
-  // Populate form with board's data when editing
   ngOnChanges() {
     if (this.board) {
       this.isEditing = true;
       this.boardForm.patchValue({ boardName: this.board.name });
 
-      // Clear existing columns and populate with current board columns
       this.columns.clear();
       this.board.columns.forEach((column) => {
         this.columns.push(this.fb.group({ name: column.name }));

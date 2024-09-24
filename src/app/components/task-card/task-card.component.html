@@ -12,11 +12,10 @@
   </p>
 </div>
 
-<!-- Task Modal -->
 <app-task-modal
   *ngIf="showModal"
   [task]="task"
-  [columns]="columns"
+  [columns]="(activeBoard$ | async)?.columns"
   (closeModal)="closeModal()"
   (statusChanged)="handleStatusChange($event)"
   (subtaskToggled)="handleSubtaskToggled($event)"

@@ -69,7 +69,8 @@
       </li>
     </ul>
 
-    <!-- Task Status Dropdown -->
+    <!-- Task Status -->
+    <!-- Task Status -->
     <div *ngIf="task" class="mb-4">
       <label
         for="status"
@@ -82,8 +83,6 @@
         [(ngModel)]="task.status"
         (change)="onStatusChange($event)"
       >
-        <option value="">Select Status</option>
-        <!-- Dynamically populate the dropdown with columns (statuses) -->
         <option *ngFor="let column of columns" [value]="column.name">
           {{ column.name }}
         </option>

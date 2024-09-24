@@ -2,7 +2,6 @@
   <h2 class="text-xl font-bold mb-4">Add New Task</h2>
 
   <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
-    <!-- Task Title -->
     <div class="mb-4">
       <input
         formControlName="title"
@@ -26,7 +25,6 @@
       </div>
     </div>
 
-    <!-- Task Description -->
     <div class="mb-4">
       <textarea
         formControlName="description"
@@ -87,7 +85,6 @@
       </button>
     </div>
 
-    <!-- Status (Column Name) Dropdown -->
     <div class="mb-4">
       <label class="text-gray-600 mb-1">Status</label>
       <select
@@ -95,7 +92,6 @@
         class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300"
       >
         <option value="">Select Column</option>
-        <!-- Dynamically populate the dropdown with columns (statuses) -->
         <option *ngFor="let column of columns" [value]="column.name">
           {{ column.name }}
         </option>
@@ -111,7 +107,6 @@
       </div>
     </div>
 
-    <!-- Submit Button -->
     <button
       type="submit"
       class="w-full bg-[#635FC7] text-white p-2 rounded-full hover:bg-blue-600 transition-colors"

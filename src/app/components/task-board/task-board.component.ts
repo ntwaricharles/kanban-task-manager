@@ -88,8 +88,6 @@ export class TaskBoardComponent implements OnInit {
         ...this.activeBoard,
         columns: updatedColumns,
       };
-
-      // Log the updated board to ensure the task is being added
       console.log('Updated Board after task creation:', updatedBoard);
 
       this.store.dispatch(updateBoard({ board: updatedBoard }));
